@@ -4,61 +4,63 @@ uses
   SysUtils;
 
 const
-  n = 10;
+  n = 5;
 
 type
   TMAS = array [0 .. n - 1] of char;
 
 var
   S: TMAS;
+  symbolResult: Boolean;
 
-procedure GenerateRandomChars(var s: TMAS);
+procedure GenerateRandomChars(var S: TMAS);
 var
   i: Integer;
-  randomChar: Char;
+  randomChar: char;
 begin
-  Randomize; // Инициализируем генератор случайных чисел
-  for i := Low(s) to High(s) do
+  Randomize;
+  write('Сгенерированная последовательность: ');
+  for i := 0 to n - 1 do
   begin
-    // Генерируем случайное число от 32 до 126 (диапазон ASCII печатных символов)
-    randomChar := Chr(Random(95) + 32);
+    // Генерируем случайную букву латинского алфавита в верхнем регистре
+    randomChar := Chr(Random(26) + 65);
     write(randomChar);
-    s[i] := randomChar;
+    S[i] := randomChar;
   end;
   writeln;
 end;
 
-procedure EnterChars(var s: TMAS);
+procedure EnterChars(var S: TMAS);
 var
   i: Integer;
-  inputChar: Char;
+  inputChar: char;
 begin
-  for i := Low(s) to High(s) do
+  for i := 0 to n - 1 do
   begin
     write('Введите символ №', i + 1, ': ');
     readln(inputChar);
-    s[i] := inputChar;
+    S[i] := inputChar;
   end;
 end;
 
-function HasSymbol(const s: TMAS): Boolean;
+function HasSymbol(const S: TMAS): Boolean;
 var
   i, j, k: Integer;
   nextAppear: Integer;
   resultForSymbol, resultForArr: Boolean;
 begin
   resultForArr := False;
-  for i := 0 to Length(s) - 2 do
+  for i := 0 to n - 2 do
   begin
     nextAppear := i;
     resultForSymbol := False;
-    for j := i + 1 to Length(s) - 1 do
+    for j := i + 1 to n - 1 do
     begin
-      if (s[i] = s[j]) and (j - nextAppear > 1) then
+      if (S[i] = S[j]) and (j - nextAppear > 1) then
       begin
         for k := nextAppear + 1 to j - 1 do
         begin
-          if (s[k] = 'A') or (s[k] = 'B') then
+          if (S[k] = 'A') or (S[k] = 'B') then
           begin
             resultForSymbol := True;
             Break;
@@ -82,13 +84,15 @@ begin
 end;
 
 begin
-  // GenerateRandomChars(s);
-  EnterChars(s);
-  
-  if HasSymbol(s) then
+  GenerateRandomChars(S);
+  // EnterChars(s);
+
+  symbolResult := HasSymbol(S);
+  if symbolResult then
     writeln('Данная последовательность СОДЕРЖИТ специальный символ')
   else
     writeln('Данная последовательность НЕ СОДЕРЖИТ специальный символ');
 
-  ReadLn;
+  readln;
+
 end.
