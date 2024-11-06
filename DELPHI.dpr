@@ -4,7 +4,9 @@ uses
   SysUtils;
 
 const
-  n = 5;
+  n = 7;
+
+// 12AA3BA
 
 type
   TMAS = array [0 .. n - 1] of char;
@@ -84,8 +86,8 @@ begin
 end;
 
 begin
-  GenerateRandomChars(S);
-  // EnterChars(s);
+  // GenerateRandomChars(S);
+  EnterChars(s);
 
   symbolResult := HasSymbol(S);
   if symbolResult then
