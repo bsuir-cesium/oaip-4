@@ -4,3 +4,9 @@ run-d:
 
 run-p:
 	python src/main.py
+
+install:
+	pip install -r requirements.txt
+
+test-p:
+	pytest
