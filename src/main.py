@@ -24,7 +24,7 @@ def has_symbol(input_string: str) -> bool:
                             break
                 else:
                     result_for_symbol = False
-                    false_symbols.append(s[j])
+                    false_symbols.append(s[i])
                     break
                 next_appear = j
         if result_for_symbol:

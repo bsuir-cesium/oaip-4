@@ -6,7 +6,7 @@ uses
 const
   n = 7;
 
-// 12AA3BA
+  // 12AA3BA
 
 type
   TMAS = array [0 .. n - 1] of char;
@@ -15,79 +15,110 @@ var
   S: TMAS;
   symbolResult: Boolean;
 
+function InArray(var arr: TMAS; const el: char): Boolean;
+var
+  I: Integer;
+  isTrue: Boolean;
+begin
+  isTrue := false;
+  for I := 0 to n - 1 do
+  begin
+    if arr[I] = el then
+    begin
+      isTrue := true;
+      break;
+    end
+  end;
+
+  InArray := isTrue;
+end;
+
 procedure GenerateRandomChars(var S: TMAS);
 var
-  i: Integer;
+  I: Integer;
   randomChar: char;
 begin
   Randomize;
   write('Сгенерированная последовательность: ');
-  for i := 0 to n - 1 do
+  for I := 0 to n - 1 do
   begin
     // Генерируем случайную букву латинского алфавита в верхнем регистре
     randomChar := Chr(Random(26) + 65);
     write(randomChar);
-    S[i] := randomChar;
+    S[I] := randomChar;
   end;
   writeln;
 end;
 
 procedure EnterChars(var S: TMAS);
 var
-  i: Integer;
+  I: Integer;
   inputChar: char;
 begin
-  for i := 0 to n - 1 do
+  for I := 0 to n - 1 do
   begin
-    write('Введите символ №', i + 1, ': ');
+    write('Введите символ №', I + 1, ': ');
     readln(inputChar);
-    S[i] := inputChar;
+    S[I] := inputChar;
   end;
 end;
 
 function HasSymbol(const S: TMAS): Boolean;
 var
-  i, j, k: Integer;
+  I, j, k: Integer;
   nextAppear: Integer;
   resultForSymbol, resultForArr: Boolean;
+  falseSymbols: TMAS;
 begin
-  resultForArr := False;
-  for i := 0 to n - 2 do
+  for I := 0 to n - 1 do
+    falseSymbols[I] := ' ';
+  resultForArr := false;
+  for I := 0 to n - 2 do
   begin
-    nextAppear := i;
-    resultForSymbol := False;
-    for j := i + 1 to n - 1 do
+    if InArray(falseSymbols, S[I]) then
+      continue;
+
+    nextAppear := I;
+    resultForSymbol := false;
+    for j := I + 1 to n - 1 do
     begin
-      if (S[i] = S[j]) and (j - nextAppear > 1) then
+      if (S[I] = S[j]) then
       begin
-        for k := nextAppear + 1 to j - 1 do
+        if (j - nextAppear > 1) then
         begin
-          if (S[k] = 'A') or (S[k] = 'B') then
+          for k := nextAppear + 1 to j - 1 do
           begin
-            resultForSymbol := True;
-            Break;
-          end
-          else
-            resultForSymbol := False;
+            if (S[k] = 'A') or (S[k] = 'B') then
+            begin
+              resultForSymbol := true;
+              break;
+            end
+          end;
+        end
+        else
+        begin
+          resultForSymbol := false;
+          falseSymbols[I] := S[I];
+          break;
         end;
         nextAppear := j;
       end;
     end;
     if resultForSymbol then
     begin
-      resultForArr := True;
-      Break;
+      resultForArr := true;
+      break;
     end;
   end;
   if resultForArr then
-    HasSymbol := True
+    HasSymbol := true
   else
-    HasSymbol := False;
+    HasSymbol := false;
 end;
 
 begin
   // GenerateRandomChars(S);
-  EnterChars(s);
+  EnterChars(S);
 
   symbolResult := HasSymbol(S);
   if symbolResult then
