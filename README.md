@@ -1,5 +1,4 @@
 # oaip-4
-### !!! (Code on Delphi is not up-to-date) !!!
 
 Запуск тестов python-версии лабы
 ```
