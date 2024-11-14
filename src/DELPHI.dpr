@@ -67,7 +67,7 @@ function HasSymbol(const S: TMAS): Boolean;
 var
   I, j, k: Integer;
   nextAppear: Integer;
-  resultForSymbol, resultForArr: Boolean;
+  resultForSymbol, resultForArr, falseSymbol: Boolean;
   falseSymbols: TMAS;
 begin
   for I := 0 to n - 1 do
@@ -75,7 +75,8 @@ begin
   resultForArr := false;
   for I := 0 to n - 2 do
   begin
-    if InArray(falseSymbols, S[I]) then
+    falseSymbol := InArray(falseSymbols, S[I]);
+    if falseSymbol then
       continue;
 
     nextAppear := I;
